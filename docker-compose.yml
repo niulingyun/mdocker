@@ -1,0 +1,87 @@
+version: "3"
+
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: mdocker_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      # app
+      - ./www:/usr/share/nginx/html
+      # config
+      - ./nginx/conf:/etc/nginx
+      # log
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - php-fpm
+
+  # fpm
+  php-fpm:
+    build:
+      context: ./php-fpm
+      args:
+        HTTP_PROXY: "http://10.1.5.232:1087"
+    expose:
+      - "9000"
+    volumes:
+      # app
+      - ./www:/usr/share/nginx/html
+      # config
+      - ./php-fpm/conf/php.ini:/usr/local/etc/php/php.ini
+
+  php-msf-demo:
+    build:
+      context: ./php-cli
+      args:
+        HTTP_PROXY: "http://10.1.5.232:1087"
+    ports:
+      - "8000:8000"
+    volumes:
+      # app
+      - /Users/lingyun/Works/camera360/OpenSources/php-msf-demo:/usr/share/nginx/html/php-msf-demo
+      # config
+      - ./php-cli/conf/php.ini:/usr/local/etc/php/php.ini
+    command: php /usr/share/nginx/html/php-msf-demo/server.php
+    
+  # 单机redis
+  redis:
+    image: redis:3-alpine
+    container_name: mdocker_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      # data
+      - ./redis/data:/data
+    command: redis-server --appendonly yes
+
+  #单机mongo
+  mongo:
+    image: mongo:3.0
+    container_name: mdocker_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      # data
+      - ./mongo/27017/data:/data/db
+      # log
+      - ./mongo/27017/mongod.log:/data/mongod.log
+      # conf
+      - ./mongo/27017/27017.conf:/data/27017.conf
+    command: mongod -f /data/27017.conf
+
+  #复制集mongo
+  mongo-replica:
+    image: mongo:3.0
+    container_name: mdocker_mongo_replica
+    ports:
+      - "28111:28111"
+    volumes:
+      # data
+      - ./mongo/28111/data:/data/db
+      # log
+      - ./mongo/28111/mongod.log:/data/mongod.log
+      # conf
+      - ./mongo/28111/28111.conf:/data/28111.conf
+    command: mongod -f /data/28111.conf
