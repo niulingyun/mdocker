@@ -6,7 +6,8 @@ services:
     image: nginx:alpine
     container_name: mdocker_nginx
     ports:
-      - "8080:80"
+      - "80:80"
+      - "443:443"
     volumes:
       # app
       - ./www:/usr/share/nginx/html
@@ -19,10 +20,11 @@ services:
 
   # fpm
   php-fpm:
+    container_name: "mdocker-fpm-qa"
     build:
       context: ./php-fpm
-      args:
-        HTTP_PROXY: "http://10.1.5.232:1087"
+      #args:
+        #HTTP_PROXY: "http://10.1.5.232:1087"
     expose:
       - "9000"
     volumes:
@@ -34,10 +36,12 @@ services:
   php-msf-demo:
     build:
       context: ./php-cli
-      args:
-        HTTP_PROXY: "http://10.1.5.232:1087"
+      #args:
+        #HTTP_PROXY: "http://10.1.5.232:1087"
     ports:
       - "8000:8000"
+    environment:
+      MSF_ENV: docker
     volumes:
       # app
       - /Users/lingyun/Works/camera360/OpenSources/php-msf-demo:/usr/share/nginx/html/php-msf-demo
