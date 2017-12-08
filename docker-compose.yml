@@ -44,7 +44,7 @@ services:
       MSF_ENV: docker
     volumes:
       # app
-      - /Users/lingyun/Works/camera360/OpenSources/php-msf-demo:/usr/share/nginx/html/php-msf-demo
+      - ./www/php-msf-demo:/usr/share/nginx/html/php-msf-demo
       # config
       - ./php-cli/conf/php.ini:/usr/local/etc/php/php.ini
     command: php /usr/share/nginx/html/php-msf-demo/server.php
