@@ -4,7 +4,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: mdocker_nginx
+    container_name: mdocker-nginx
     ports:
       - "80:80"
       - "443:443"
@@ -52,7 +52,7 @@ services:
   # 单机redis
   redis:
     image: redis:3-alpine
-    container_name: mdocker_redis
+    container_name: mdocker-redis
     ports:
       - "6379:6379"
     volumes:
@@ -61,31 +61,42 @@ services:
     command: redis-server --appendonly yes
 
   #单机mongo
-  mongo:
-    image: mongo:3.0
-    container_name: mdocker_mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      # data
-      - ./mongo/27017/data:/data/db
-      # log
-      - ./mongo/27017/mongod.log:/data/mongod.log
-      # conf
-      - ./mongo/27017/27017.conf:/data/27017.conf
-    command: mongod -f /data/27017.conf
+  # mongo:
+  #   image: mongo:3.0
+  #   container_name: mdocker_mongo
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     # data
+  #     - ./mongo/27017/data:/data/db
+  #     # log
+  #     - ./mongo/27017/mongod.log:/data/mongod.log
+  #     # conf
+  #     - ./mongo/27017/27017.conf:/data/27017.conf
+  #   command: mongod -f /data/27017.conf
 
-  #复制集mongo
-  mongo-replica:
+  #复制集mongo-node1
+  mongo-replica-node1:
     image: mongo:3.0
-    container_name: mdocker_mongo_replica
+    container_name: mdocker-mongo-replica-node1
     ports:
       - "28111:28111"
     volumes:
       # data
       - ./mongo/28111/data:/data/db
-      # log
-      - ./mongo/28111/mongod.log:/data/mongod.log
       # conf
       - ./mongo/28111/28111.conf:/data/28111.conf
     command: mongod -f /data/28111.conf
+  
+  #复制集mongo-node2
+  mongo-replica-node2:
+    image: mongo:3.0
+    container_name: mdocker-mongo-replica-node2
+    ports:
+      - "28112:28112"
+    volumes:
+      # data
+      - ./mongo/28112/data:/data/db
+      # conf
+      - ./mongo/28112/28112.conf:/data/28112.conf
+    command: mongod -f /data/28112.conf
