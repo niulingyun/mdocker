@@ -115,7 +115,7 @@ services:
 
   #单机ElasticSearch
   elasticsearch:
-    image: elasticsearch
+    image: elasticsearch:alpine
     container_name: mdocker-elasticsearch
     environment:
       - TZ=Asia/Shanghai
