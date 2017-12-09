@@ -5,6 +5,7 @@ services:
   nginx:
     image: nginx:alpine
     container_name: mdocker-nginx
+    hostname: mdocker-nginx
     environment:
       - TZ=Asia/Shanghai
     ports:
@@ -22,7 +23,8 @@ services:
 
   # fpm
   php-fpm:
-    container_name: "mdocker-fpm-qa"
+    container_name: mdocker-fpm-qa
+    hostname: mdocker-fpm-qa
     environment:
       - TZ=Asia/Shanghai
     build:
@@ -38,13 +40,14 @@ services:
       - ./php-fpm/conf/php.ini:/usr/local/etc/php/php.ini
 
   php-msf-demo:
+    container_name: mdocker-php-msf-demo
+    hostname: mdocker-php-msf-demo
     build:
       context: ./php-cli
       #args:
         #HTTP_PROXY: "http://10.1.5.232:1087"
     ports:
       - "8000:8000"
-    container_name: "mdocker-php-msf-demo"
     environment:
       MSF_ENV: qa
       TZ: Asia/Shanghai
@@ -59,6 +62,7 @@ services:
   redis:
     image: redis:3-alpine
     container_name: mdocker-redis
+    hostname: mdocker-redis
     environment:
       - TZ=Asia/Shanghai
     ports:
@@ -72,6 +76,7 @@ services:
   # mongo:
   #   image: mongo:3.0
   #   container_name: mdocker_mongo
+  #   hostname: mdocker_mongo
   #   ports:
   #     - "27017:27017"
   #   volumes:
@@ -87,6 +92,7 @@ services:
   mongo-replica-node1:
     image: mongo:3.0
     container_name: mdocker-mongo-replica-node1
+    hostname: mdocker-mongo-replica-node1
     environment:
       - TZ=Asia/Shanghai
     ports:
@@ -102,6 +108,7 @@ services:
   mongo-replica-node2:
     image: mongo:3.0
     container_name: mdocker-mongo-replica-node2
+    hostname: mdocker-mongo-replica-node2
     environment:
       - TZ=Asia/Shanghai
     ports:
@@ -117,6 +124,7 @@ services:
   elasticsearch:
     image: elasticsearch:alpine
     container_name: mdocker-elasticsearch
+    hostname: mdocker-elasticsearch
     environment:
       - TZ=Asia/Shanghai
     ports:
@@ -128,6 +136,8 @@ services:
 
   #crontab
   crontab:
+    container_name: mdocker-qa-cron
+    hostname: mdocker-qa-cron
     volumes:
       # app
       - ./www:/home/worker/data/www
@@ -140,7 +150,6 @@ services:
       context: ./crontab
       #args:
         #HTTP_PROXY: "http://10.1.5.232:1087"
-    container_name: "mdocker-qa-cron"
     environment:
       MSF_ENV: qa
       TZ: Asia/Shanghai
