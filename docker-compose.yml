@@ -1,5 +1,7 @@
 version: "3"
 
+# 必须配置 MDOCKER_ENV 环境变量，比如qa production
+
 services:
 
   nginx:
