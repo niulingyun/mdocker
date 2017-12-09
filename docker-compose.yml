@@ -46,7 +46,7 @@ services:
       - "8000:8000"
     container_name: "mdocker-php-msf-demo"
     environment:
-      MSF_ENV: docker
+      MSF_ENV: qa
       TZ: Asia/Shanghai
     volumes:
       # app
@@ -125,3 +125,23 @@ services:
     volumes:
       # data
       - ./elasticsearch/data:/usr/share/elasticsearch/data
+
+  #crontab
+  crontab:
+    volumes:
+      # app
+      - ./www:/home/worker/data/www
+      # config
+      - ./php-cli/conf/php.ini:/usr/local/etc/php/php.ini
+      - ./crontab/conf/list:/etc/cron.d/list
+      # log
+      - ./crontab/logs:/var/log
+    build:
+      context: ./crontab
+      #args:
+        #HTTP_PROXY: "http://10.1.5.232:1087"
+    container_name: "mdocker-qa-cron"
+    environment:
+      MSF_ENV: qa
+      TZ: Asia/Shanghai
+    command: bash -c "crontab /etc/cron.d/list && cron -f"

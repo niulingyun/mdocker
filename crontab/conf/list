@@ -1,0 +1,5 @@
+# m h  dom mon dow   command
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+
+# for test
+#*/1 * * * *   echo "Hello $(date)" >>/var/log/cron.log 2>&1
