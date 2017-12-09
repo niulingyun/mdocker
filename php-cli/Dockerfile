@@ -26,4 +26,5 @@ RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list \
     && docker-php-ext-enable amqp igbinary mongodb redis yac opcache swoole \
     && rm -rf /var/cache/apt/* \
     && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /tmp/pear/temp/*
+    && rm -rf /tmp/pear/temp/* \
+    && rm -rf /swoole*

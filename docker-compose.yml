@@ -23,8 +23,8 @@ services:
 
   # fpm
   php-fpm:
-    container_name: mdocker-fpm-qa
-    hostname: mdocker-fpm-qa
+    container_name: mdocker-fpm-${MDOCKER_ENV}
+    hostname: mdocker-fpm-${MDOCKER_ENV}
     environment:
       - TZ=Asia/Shanghai
     build:
@@ -39,17 +39,23 @@ services:
       # config
       - ./php-fpm/conf/php.ini:/usr/local/etc/php/php.ini
 
-  php-msf-demo:
-    container_name: mdocker-php-msf-demo
-    hostname: mdocker-php-msf-demo
+  # php-msf-base
+  php-msf-base:
     build:
       context: ./php-cli
       #args:
         #HTTP_PROXY: "http://10.1.5.232:1087"
+    image: php-msf-base:latest
+
+  # php-msf-demo
+  php-msf-demo:
+    image: php-msf-base:latest
+    container_name: mdocker-php-msf-demo
+    hostname: mdocker-php-msf-demo
     ports:
       - "8000:8000"
     environment:
-      MSF_ENV: qa
+      MSF_ENV: ${MDOCKER_ENV}
       TZ: Asia/Shanghai
     volumes:
       # app
@@ -136,8 +142,8 @@ services:
 
   #crontab
   crontab:
-    container_name: mdocker-qa-cron
-    hostname: mdocker-qa-cron
+    container_name: mdocker-${MDOCKER_ENV}-cron
+    hostname: mdocker-${MDOCKER_ENV}-cron
     volumes:
       # app
       - ./www:/home/worker/data/www
@@ -148,9 +154,7 @@ services:
       - ./crontab/logs:/var/log
     build:
       context: ./crontab
-      #args:
-        #HTTP_PROXY: "http://10.1.5.232:1087"
     environment:
-      MSF_ENV: qa
+      MSF_ENV: ${MDOCKER_ENV}
       TZ: Asia/Shanghai
     command: bash -c "crontab /etc/cron.d/list && cron -f"
