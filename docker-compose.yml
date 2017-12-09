@@ -68,7 +68,7 @@ services:
       - ./redis/data:/data
     command: redis-server --appendonly yes
 
-  #单机mongo
+  #单机mongo 本地开发用
   # mongo:
   #   image: mongo:3.0
   #   container_name: mdocker_mongo
