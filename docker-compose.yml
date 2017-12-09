@@ -49,6 +49,8 @@ services:
 
   # php-msf-demo
   php-msf-demo:
+    depends_on: 
+      - php-msf-base
     image: php-msf-base:latest
     container_name: mdocker-php-msf-demo
     hostname: mdocker-php-msf-demo
