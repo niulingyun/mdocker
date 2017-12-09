@@ -2,3 +2,5 @@
 data
 logs
 www/*msf*
+appendonly.conf
+.vscode/*
