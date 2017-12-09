@@ -112,3 +112,16 @@ services:
       # conf
       - ./mongo/28112/28112.conf:/data/28112.conf
     command: mongod -f /data/28112.conf
+
+  #单机ElasticSearch
+  elasticsearch:
+    image: elasticsearch
+    container_name: mdocker-elasticsearch
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      # data
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
