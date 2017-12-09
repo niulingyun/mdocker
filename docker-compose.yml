@@ -5,6 +5,8 @@ services:
   nginx:
     image: nginx:alpine
     container_name: mdocker-nginx
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - "80:80"
       - "443:443"
@@ -21,6 +23,8 @@ services:
   # fpm
   php-fpm:
     container_name: "mdocker-fpm-qa"
+    environment:
+      - TZ=Asia/Shanghai
     build:
       context: ./php-fpm
       #args:
@@ -40,8 +44,10 @@ services:
         #HTTP_PROXY: "http://10.1.5.232:1087"
     ports:
       - "8000:8000"
+    container_name: "mdocker-php-msf-demo"
     environment:
       MSF_ENV: docker
+      TZ: Asia/Shanghai
     volumes:
       # app
       - ./www/php-msf-demo:/usr/share/nginx/html/php-msf-demo
@@ -53,6 +59,8 @@ services:
   redis:
     image: redis:3-alpine
     container_name: mdocker-redis
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - "6379:6379"
     volumes:
@@ -79,6 +87,8 @@ services:
   mongo-replica-node1:
     image: mongo:3.0
     container_name: mdocker-mongo-replica-node1
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - "28111:28111"
     volumes:
@@ -92,6 +102,8 @@ services:
   mongo-replica-node2:
     image: mongo:3.0
     container_name: mdocker-mongo-replica-node2
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - "28112:28112"
     volumes:
