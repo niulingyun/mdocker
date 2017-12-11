@@ -23,7 +23,7 @@ services:
     depends_on:
       - php-fpm
 
-  # fpm
+  # php7.0-fpm
   php-fpm:
     container_name: mdocker-fpm-${MDOCKER_ENV}
     hostname: mdocker-fpm-${MDOCKER_ENV}
