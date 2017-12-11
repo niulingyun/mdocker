@@ -159,6 +159,7 @@ services:
       - ./crontab/logs:/var/log
     build:
       context: ./crontab
+    image: php-crontab-base:latest
     environment:
       MSF_ENV: ${MDOCKER_ENV}
       TZ: Asia/Shanghai
