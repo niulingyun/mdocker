@@ -33,6 +33,7 @@ services:
       context: ./php-fpm
       #args:
         #HTTP_PROXY: "http://10.1.5.232:1087"
+    image: php-fpm-base:latest
     expose:
       - "9000"
     volumes:
